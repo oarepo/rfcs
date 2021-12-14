@@ -1,7 +1,7 @@
 # OARepo RFCs
 
 The OARepo RFC process (Request For Comments) is a **communication tool** inspired
-with [Invenio RFCs](https://github.com/inveniosoftware/rfcs) with
+with [Invenio RFCs](https://github.com/oarepo/rfcs) with
 the purpose to:
 
 - coordinate the design process
@@ -18,48 +18,41 @@ other RFC processes.
 
 ### TL;DR
 
-- [Request a new RFC](https://github.com/inveniosoftware/rfcs/issues/new/choose)
+- [Request a new RFC](https://github.com/oarepo/rfcs/issues/new/choose)
 
 #### Quick links
 
-- [Pending RFC requests](https://github.com/inveniosoftware/rfcs/labels/Proposal%3A%20Pending)
-- [Work-In-Progress RFCs](https://github.com/inveniosoftware/rfcs/labels/Proposal%3A%20Accepted)
-- [Completed RFCs](https://github.com/inveniosoftware/rfcs/tree/master/rfcs)
+- [Pending RFC requests](https://github.com/oarepo/rfcs/labels/Proposal%3A%20Pending)
+- [Work-In-Progress RFCs](https://github.com/oarepo/rfcs/labels/Proposal%3A%20Accepted)
+- [Completed RFCs](https://github.com/oarepo/rfcs/tree/master/rfcs)
 
 ### Process overview
 
-1. **Request RFC (focus on scope):** Before starting to write a new RFC, you first have to request the approval of Invenio architects by [opening an issue](https://github.com/inveniosoftware/rfcs/issues/new/choose). This is to aid scoping the RFC, avoid duplication as well as same everyone time..
-2. **Write RFC (focus on content):** If the request is accepted by architects, you start collaborative writing of the RFC using the [template](https://github.com/inveniosoftware/rfcs/blob/master/0000-template.md) and CodiMD. This part of the process focuses on the *content*, and an architect is assigned to support you in writing the RFC. The goal is that most discussions and alignment on a solutions happens in the writing phase.
+1. **Request RFC (focus on scope):** Before starting to write a new RFC, you first have to request the approval of OARepo architects by [opening an issue](https://github.com/oarepo/rfcs/issues/new/choose). This is to aid scoping the RFC, avoid duplication as well as save everyone time..
+2. **Write RFC (focus on content):** If the request is accepted by architects, you start collaborative writing of the RFC using the [template](https://github.com/oarepo/rfcs/blob/master/0000-template.md). This part of the process focuses on the *content*, and an architect is assigned to support you in writing the RFC. The goal is that most discussions and alignment on a solutions happens in the writing phase.
 3. **Review RFC (focus on quality):** Once the RFC is complete, you submit a pull-request with the new RFC for final review. The review focuses on quality of RFC, not the content of the RFC (should already have been agreed upon in the writing phase).
 4. **Merge RFC:** RFC is merged into repository (RFCs does not need to be complete to be merged, as long as unresolved questions have been listed in the RFC and quality has passed the review).
 
-You'll notice that there's no explicit approval step for the acceptance of an RFC. This is because the goal is to a) document and b) produce consensus on designs. The [Invenio Governance](https://inveniosoftware.org/governance/) applies for the decision making and handling of disagreements.
+You'll notice that there's no explicit approval step for the acceptance of an RFC. This is because the goal is to a) document and b) produce consensus on designs.
 
 ### When to write a RFC?
 
-You need to write a RFC to make substantial changes to Invenio. A substantial
+You need to write a RFC to make substantial changes to OARepo modules functionality. A substantial
 change could be:
 
 - Adding/removing larger features and/or modules.
 - Changing existing features/APIs.
 - Changes of design patterns, idiomatic usage or conventions.
 
-You do not need a RFC for:
-
-- Modules/features you develop privately (you only need it, if you want it as
-  an official Invenio module).
-
-If in doubt, just ask on [Gitter](http://gitter.im/inveniosoftware/invenio).
-
 ### Step 1: Request an RFC
 
-- [Open an issue](https://github.com/inveniosoftware/rfcs/issues/new/choose).
+- [Open an issue](https://github.com/oarepo/rfcs/issues/new/choose).
   - Document the 1) Motivation 2) Summary of proposed changes and 3) Resources
 
 ##### For architects:
 
 - Label and assign the issue
-  - All new RFCs should have the "Proposal: Pending" label and a label for the product (e.g. "RDM").
+  - All new RFCs should have the "Proposal: Pending" label and a label for the product (e.g. "NR").
 - Review the request
 - **If rejected**:
   - Add a justification to the comments of the issue.
@@ -67,8 +60,8 @@ If in doubt, just ask on [Gitter](http://gitter.im/inveniosoftware/invenio).
   - Close the issue.
 - **If accepted**
   - Change the label to "Proposal: Accepted".
-  - Create a [new CodiMD](https://codimd.web.cern.ch/new) filling it with the [RFC template](0000-template.md)
-  - Add link to CodiMD from issue (``- [RFC work-in-progress](...)``])
+  - Create a RFC draft document from [RFC template](0000-template.md) in a [new branch](https://github.com/oarepo/rfcs/new/master/rfcs) named `rfc-${number}` (will create a PR).
+  - Add link to PR to the original issue (``- [RFC work-in-progress](link)``])
   - Assign the point-of-contact architect
 
 ### Step 2: Write the RFC
@@ -112,11 +105,9 @@ You can jump around between phases.
 
 > Fight for what you believe, but gracefully accept defeat.
 
-We expect everyone (no matter their role and experience level) to adhere to our [Code of Conduct](https://inveniosoftware.org/governance/) and be open, considerate and respectful during discussions. Search for consensus and be ready to change your mind!
-
 Please do your outmost to not have unresolvable disagreements! The more senior your are, the more responsible you are to not have unresolvable disagreements.
 
-In case all attempts to reach consensus have failed, and really only as a very very last resort, the architects can resolve the conflict by taking a decision. This decision should be properly documented, and can be escalated according to the [Invenio Governance](https://inveniosoftware.org/governance/).
+In case all attempts to reach consensus have failed, and really only as a very very last resort, the architects can resolve the conflict by taking a decision. This decision should be properly documented.
 
 ### Step 3: Review the RFC
 
@@ -124,7 +115,7 @@ In case all attempts to reach consensus have failed, and really only as a very v
 
 This is used in the step 3 (see "Process overview") to submit the already written RFC.
 
-- Fork this repository.
+- Create a branch for the RFC named ``rfc-${title-slug}``
 - Copy ``0000-template.md`` to ``rfcs/<product>-0000-<my-title>.md``.
 - Fill in the RFC.
 - Submit a pull request
