@@ -17,7 +17,6 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
     env:
       TITLE: ${{ github.event.inputs.title }}
     steps:
