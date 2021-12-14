@@ -4,6 +4,7 @@
 - State: Being implemented
 - Implemented in:
   - https://github.com/oarepo/rfcs/issues/3
+  - https://github.com/oarepo/rfcs/issues/4
 
 # Submission of rfcs
 
