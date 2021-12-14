@@ -1,5 +1,5 @@
 - Start Date: 2021-12-14
-- RFC PR: [#<PR>](https://github.com/oarepo/rfcs/pull/<PR>)
+- RFC PR: [#2](https://github.com/oarepo/rfcs/pull/2)
 - Authors: @mirekys
 - State: DRAFT
 
