@@ -1,7 +1,7 @@
 - Start Date: 2021-12-14
 - RFC PR: [#2](https://github.com/oarepo/rfcs/pull/2)
 - Authors: @mirekys
-- State: DRAFT
+- State: Ready
 - Implemented in:
 
 # Submission of rfcs
