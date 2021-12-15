@@ -10,29 +10,29 @@ name: Test workflow
 on:
   workflow_dispatch:
     inputs:
-      title:
-        description: Title
-        required: false
-        default: default_title
+      issuenum:
+        description: Issue number
+        required: true
 
 jobs:
   build:
     runs-on: ubuntu-20.04
     env:
-      TITLE: ${{ github.event.inputs.title }}
+      ISN: ${{ github.event.inputs.issuenum }}
     steps:
       - name: Checkout oarepo/rfcs
         uses: actions/checkout@v2
-      - name: with input ${{ github.event.inputs.title }}
+        with:
+          token: ${{ secrets.OAR_BOT }}
+      - name: with input ${{ github.event.inputs.issuenum }}
         run: |
-          echo "Test of input, title:${{ github.event.inputs.title }}"
-          echo "${{ github.event.inputs.title }}/$TITLE" >> test.log
-          date '+%y%m%d-%H%M%S' >> test.log
+          echo "Test of input, issuenum:${{ github.event.inputs.issuenum }}"
+          echo "${{ github.event.inputs.issuenum }}/$ISN"
       - name: Commit back
         run: |
-          echo "Start [$TITLE]"
+          echo "Start [$ISN]"
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
           cat test.log
-          #git checkout -b "$TITLE"
+          #git checkout -b "$ISN"
           echo "Done."

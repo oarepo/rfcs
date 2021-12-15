@@ -1,0 +1,74 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2020 CESNET.
+#
+# invenio-integration-tests is free software; you can redistribute it and/or modify it
+# under the terms of the MIT License; see LICENSE file for more details.
+
+name: new-rfc
+
+on:
+  workflow_dispatch:
+    inputs:
+      issuenum:
+        description: Issue number
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    env:
+      ISN: ${{ github.event.inputs.issuenum }}
+      TEMPLATE: 0000-template.md
+      APIURL: https://api.github.com/repos/oarepo/rfcs/issues
+    steps:
+      - name: Checkout oarepo/rfcs
+        uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.OAR_BOT }}
+      - name: with input "#"${{ github.event.inputs.issuenum }}
+        run: |
+          echo "Test of input, issuenum:${{ github.event.inputs.issuenum }}"
+          printf -v ISN_Z "%04d" "$ISN"
+          DATE=$(date '+%Y-%m-%d')
+          ISSUE="$(curl -s "$APIURL/$ISN")"
+          TITLE0="$(echo "$ISSUE" | jq -r '.title')"
+          TITLE="${TITLE0##\[*\] }"
+          TITLE="${TITLE,,}"
+          TITLE="${TITLE// /-}"
+          AUTHOR="$(echo "$ISSUE" | jq -r '.user.login')"
+          URL="$(echo "$ISSUE" | jq -r '.html_url')"
+          DOC="docs/$ISN_Z-$TITLE.md"
+          echo "$DOC - $TITLE0 ($TITLE) [$AUTHOR]"
+          echo -e "ISN_Z=$ISN_Z\nBRANCH=rfc-$ISN\nDOC=$DOC\nTITLE0=$TITLE0\nURL=$URL" >> $GITHUB_ENV
+          cp $TEMPLATE "$DOC"
+          sed -i "/^- Start Date:/ s/YYYY-MM-DD/$DATE/" "$DOC"
+          sed -i "/^- Authors:/ s/:/: $AUTHOR/" "$DOC"
+          sed -i "/^# <RFC title>/ s/<RFC title>/$TITLE0/" "$DOC"
+      - name: Create PR
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.TH_BOT }}
+          commit-message: "PR init"
+          committer: oarepo-bot <noreply@cesnet.cz>
+          body: |
+            PR for issue "[${{ env.TITLE0 }}](${{ env.URL }})"
+            close #${{ env.ISN }}
+          title: '[Test] PR for issue "${{ env.TITLE0 }}"'
+          branch: ${{ env.BRANCH }}
+      - name: Outputs
+        run: |
+          echo "#${{ steps.cpr.outputs.pull-request-number }}"
+          echo "${{ steps.cpr.outputs.pull-request-url }}"
+      - name: Commit back
+        run: |
+          PRN=${{ steps.cpr.outputs.pull-request-number }}
+          PR_URL=${{ steps.cpr.outputs.pull-request-url }}
+          sed -i "/^- RFC PR:/ { s/<PR>/$PRN/g ; s/(.*)/(${PR_URL////\\/})/ }" "$DOC"
+          git config --global user.name oarepo-bot
+          git config --global user.email noreply@cesnet.cz
+          git add "$DOC"
+          git commit -m "PR url added to RFC doc"
+          git push --set-upstream origin "$BRANCH"
+          echo "Done."
