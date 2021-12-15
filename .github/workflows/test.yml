@@ -33,6 +33,5 @@ jobs:
           echo "Start [$ISN]"
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
-          cat test.log
-          #git checkout -b "$ISN"
+          echo "$ISN"
           echo "Done."
