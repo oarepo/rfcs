@@ -55,7 +55,7 @@ jobs:
           body: |
             PR for issue "[${{ env.TITLE0 }}](${{ env.URL }})"
             close #${{ env.ISN }}
-          title: '[Test] PR for issue "${{ env.TITLE0 }}"'
+          title: 'PR for issue "${{ env.TITLE0 }}"'
           branch: ${{ env.BRANCH }}
       - name: Outputs
         run: |
