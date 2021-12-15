@@ -49,7 +49,7 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.TH_BOT }}
+          token: ${{ secrets.OAR_BOT }}
           commit-message: "PR init"
           committer: oarepo-bot <noreply@cesnet.cz>
           body: |
