@@ -23,17 +23,20 @@ jobs:
         run: |
           DATE=$(date '+%Y-%m-%d')
           git branch --format='%(refname:short)'
-          BRANCHES="$(curl -s "$APIURL/git/refs/heads" | jq -r '.[]|select(.ref|test("^refs/heads/rfc-")).ref' | sed 's/^refs\/heads\///')"
+          BRANCHES="$(curl -s "$APIURL/git/refs/heads" | jq -r '.[]|select(.ref|test("^refs/heads/rfc-")).ref' | sed 's/^refs\/heads\/rfc-//')"
           # index section from start to regexp:
           sed -n '1,/^<!--ts-->/ p' < $INDEX > $INDEX.tmp
-          for BR in $BRANCHES; do echo "BR:>$BR<"
+          for ISN in $BRANCHES; do
+            printf -v BR "rfc-%d" "$ISN"
+            echo "BR:>$BR<"
+            printf -v ISN_Z "%04d" "$ISN"
             COMMIT_URL=$(curl -s "$APIURL/git/refs/heads/$BR" | jq -r '.object.url')
             echo "COMMIT_URL=$COMMIT_URL"
             TREE_URL=$(curl -s "$COMMIT_URL" | jq -r '.tree.url')
             echo "TREE_URL=$TREE_URL"
             DOCS_URL=$(curl -s "$TREE_URL" | jq -r '.tree[]|select(.path=="docs").url')
             echo "DOCS_URL=$DOCS_URL"
-            RFC_FILE=$(curl -s "$DOCS_URL" | jq -r '.tree[]|select(.path|test("^[0-9]{4}")).path')
+            RFC_FILE=$(curl -s "$DOCS_URL" | jq -r '[.tree[]|select(.path|test("^$ISN_Z"))][0].path')
             echo "RFC_FILE=$RFC_FILE"
             TITLE=$(curl -s "$RAWURL/$BR/docs/$RFC_FILE" | sed -n '/^# / { s/^# //; p }')
             echo "TITLE:>$TITLE<"
