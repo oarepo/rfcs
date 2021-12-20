@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.OAR_BOT }}
-      - name: $INDEX regenerate
+      - name: update index
         run: |
           DATE=$(date '+%Y-%m-%d')
           git branch --format='%(refname:short)'
@@ -36,7 +36,7 @@ jobs:
             echo "TREE_URL=$TREE_URL"
             DOCS_URL=$(curl -s "$TREE_URL" | jq -r '.tree[]|select(.path=="docs").url')
             echo "DOCS_URL=$DOCS_URL"
-            RFC_FILE=$(curl -s "$DOCS_URL" | jq -r '[.tree[]|select(.path|test("^$ISN_Z"))][0].path')
+            RFC_FILE=$(curl -s "$DOCS_URL" | jq -r "[.tree[]|select(.path|test(\"^$ISN_Z\"))][0].path")
             echo "RFC_FILE=$RFC_FILE"
             TITLE=$(curl -s "$RAWURL/$BR/docs/$RFC_FILE" | sed -n '/^# / { s/^# //; p }')
             echo "TITLE:>$TITLE<"
@@ -51,5 +51,5 @@ jobs:
           git config --global user.name oarepo-bot
           git config --global user.email noreply@cesnet.cz
           git add $INDEX
-          git commit -m "$INDEX regenerate" -m "[skip ci]" && git push
+          git commit -m "$INDEX update" -m "[skip ci]" && git push
           echo "Done."
