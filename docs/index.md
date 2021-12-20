@@ -6,7 +6,6 @@
   in index_updater.yml
 -->
 <!--ts-->
-* [rfc-1: Submission of rfcs](../../rfc-1/docs/0001-submission-of-rfcs.md)
-* [rfc-4: ](../../rfc-4/docs/0001-submission-of-rfcs.md
-0004-update-readme-with-specification-from-rfc0001.md)
+* [rfc-1: ](../../rfc-1/docs/null)
+* [rfc-4: ](../../rfc-4/docs/null)
 <!--te-->
