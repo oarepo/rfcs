@@ -28,24 +28,25 @@ jobs:
           sed -n '1,/^<!--ts-->/ p' < $INDEX > $INDEX.tmp
           for ISN in $BRANCHES; do
             printf -v BR "rfc-%d" "$ISN"
-            echo "BR:>$BR<"
             printf -v ISN_Z "%04d" "$ISN"
+            echo "BR=$BR; ISN_Z=$ISN_Z"
             COMMIT_URL=$(curl -s "$APIURL/git/refs/heads/$BR" | jq -r '.object.url')
-            echo "COMMIT_URL=$COMMIT_URL"
+            #echo "COMMIT_URL=$COMMIT_URL"
             TREE_URL=$(curl -s "$COMMIT_URL" | jq -r '.tree.url')
-            echo "TREE_URL=$TREE_URL"
+            #echo "TREE_URL=$TREE_URL"
             DOCS_URL=$(curl -s "$TREE_URL" | jq -r '.tree[]|select(.path=="docs").url')
-            echo "DOCS_URL=$DOCS_URL"
+            #echo "DOCS_URL=$DOCS_URL"
             RFC_FILE=$(curl -s "$DOCS_URL" | jq -r "[.tree[]|select(.path|test(\"^$ISN_Z\"))][0].path")
             echo "RFC_FILE=$RFC_FILE"
             TITLE=$(curl -s "$RAWURL/$BR/docs/$RFC_FILE" | sed -n '/^# / { s/^# //; p }')
-            echo "TITLE:>$TITLE<"
+            echo "TITLE=$TITLE"
             # list item:
             echo "* [$BR: $TITLE](../../$BR/docs/$RFC_FILE)" >> $INDEX.tmp
           done
           # index section from regexp to eof:
           sed -n '/^<!--te-->/,$ p' < $INDEX >> $INDEX.tmp
           mv $INDEX.tmp $INDEX
+          sleep 14
       - name: Commit back
         run: |
           git config --global user.name oarepo-bot
