@@ -24,11 +24,11 @@ other RFC processes.
 
 - [Pending RFC requests](https://github.com/oarepo/rfcs/labels/Proposal%3A%20Pending)
 - [Work-In-Progress RFCs](https://github.com/oarepo/rfcs/labels/Proposal%3A%20Accepted)
-- [Completed RFCs](https://github.com/oarepo/rfcs/tree/master/rfcs)
+- [Completed RFCs](https://github.com/oarepo/rfcs/tree/main/docs)
 
 ### Process overview
 
-1. **Request RFC (focus on scope):** Before starting to write a new RFC, you first have to request the approval of OARepo architects by [opening an issue](https://github.com/oarepo/rfcs/issues/new/choose). This is to aid scoping the RFC, avoid duplication as well as save everyone time..
+1. **[Request RFC](https://github.com/oarepo/rfcs/blob/main/docs/0001-submission-of-rfcs.md#step-1-request-an-rfc) (focus on scope):** Before starting to write a new RFC, you first have to request the approval of OARepo architects by [opening an issue](https://github.com/oarepo/rfcs/issues/new/choose). This is to aid scoping the RFC, avoid duplication as well as save everyone time..
 2. **Write RFC (focus on content):** If the request is accepted by architects, you start collaborative writing of the RFC using the [template](https://github.com/oarepo/rfcs/blob/master/0000-template.md). This part of the process focuses on the *content*, and an architect is assigned to support you in writing the RFC. The goal is that most discussions and alignment on a solutions happens in the writing phase.
 3. **Review RFC (focus on quality):** Once the RFC is complete, you submit a pull-request with the new RFC for final review. The review focuses on quality of RFC, not the content of the RFC (should already have been agreed upon in the writing phase).
 4. **Merge RFC:** RFC is merged into repository (RFCs does not need to be complete to be merged, as long as unresolved questions have been listed in the RFC and quality has passed the review).
