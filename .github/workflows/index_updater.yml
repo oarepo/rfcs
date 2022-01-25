@@ -21,16 +21,13 @@ jobs:
           token: ${{ secrets.OAR_BOT }}
       - name: update index
         run: |
-          DATE=$(date '+%Y-%m-%d')
-          git branch --format='%(refname:short)'
-          BRANCHES="$(curl -s "$APIURL/git/refs/heads" | jq -r '.[]|select(.ref|test("^refs/heads/rfc-")).ref' | sed 's/^refs\/heads\/rfc-//')"
           # index section from start to regexp:
           sed -n '1,/^<!--ts-->/ p' < $INDEX > $INDEX.tmp
 
           COMMIT_URL=$(curl -s "$APIURL/git/refs/heads/main" | jq -r '.object.url')
           TREE_URL=$(curl -s "$COMMIT_URL" | jq -r '.tree.url')
           DOCS_URL=$(curl -s "$TREE_URL" | jq -r '.tree[]|select(.path=="docs").url')
-          RFC_FILESB=$(curl -s "$DOCS_URL" | jq -r '[.tree[]|select(.path|test("^[0-9]{4}-.*\\.md$"))][]|.path')
+          RFC_FILES=$(curl -s "$DOCS_URL" | jq -r '[.tree[]|select(.path|test("^[0-9]{4}-.*\\.md$"))][]|.path')
 
           for RFC_FILE in $RFC_FILES; do
             echo "RFC_FILE=$RFC_FILE"
