@@ -22,6 +22,7 @@ other RFC processes.
 
 #### Quick links
 
+- [RFC Docs](https://oarepo.github.io/rfcs/)
 - [Pending RFC requests](https://github.com/oarepo/rfcs/labels/Proposal%3A%20Pending)
 - [Work-In-Progress RFCs](https://github.com/oarepo/rfcs/labels/Proposal%3A%20Accepted)
 - [Completed RFCs](https://github.com/oarepo/rfcs/tree/main/docs)
