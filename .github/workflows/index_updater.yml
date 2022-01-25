@@ -21,23 +21,29 @@ jobs:
           token: ${{ secrets.OAR_BOT }}
       - name: update index
         run: |
+          # --- grab all RFCs from docs folder ---
           # index section from start to regexp:
           sed -n '1,/^<!--ts-->/ p' < $INDEX > $INDEX.tmp
 
+          # last commit url in main:
           COMMIT_URL=$(curl -s "$APIURL/git/refs/heads/main" | jq -r '.object.url')
+          # tree url of commit:
           TREE_URL=$(curl -s "$COMMIT_URL" | jq -r '.tree.url')
+          # docs folder url:
           DOCS_URL=$(curl -s "$TREE_URL" | jq -r '.tree[]|select(.path=="docs").url')
+          # RFC files list (by regexp):
           RFC_FILES=$(curl -s "$DOCS_URL" | jq -r '[.tree[]|select(.path|test("^[0-9]{4}-.*\\.md$"))][]|.path')
 
           for RFC_FILE in $RFC_FILES; do
             echo "RFC_FILE=$RFC_FILE"
             if [[ "$RFC_FILE" =~ ^0*([0-9]{1,4})- ]]; then
+              # RFC number:
               ISN="${BASH_REMATCH[1]}"
-              printf -v BR "rfc-%d" "$ISN"
+              # RFC title:
               TITLE=$(curl -s "$RAWURL/main/docs/$RFC_FILE" | sed -n '/^# / { s/^# //; p; q }')
               echo "TITLE=$TITLE"
-              # list item:
-              echo "* [$BR: $TITLE]($GHURL/blob/main/docs/$RFC_FILE)" >> $INDEX.tmp
+              # add list item to index:
+              echo "* [rfc-$ISN: $TITLE]($GHURL/blob/main/docs/$RFC_FILE)" >> $INDEX.tmp
             else
               echo "Wrong RFC filename"
             fi
