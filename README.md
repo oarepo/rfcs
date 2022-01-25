@@ -28,12 +28,12 @@ other RFC processes.
 
 ### Process overview
 
-1. **[Request RFC](#step-1-request-an-rfc) (focus on scope):** Before starting to write a new RFC, you first have to request the approval of OARepo architects by [opening an issue](https://github.com/oarepo/rfcs/issues/new/choose). This is to aid scoping the RFC, avoid duplication as well as save everyone time..
-2. **[Write RFC](#step-2-write-the-rfc) (focus on content):** If the request is accepted by architects, you start collaborative writing of the RFC using the [template](https://github.com/oarepo/rfcs/blob/master/0000-template.md). This part of the process focuses on the *content*, and an architect is assigned to support you in writing the RFC. The goal is that most discussions and alignment on a solutions happens in the writing phase.
-3. **[Review RFC](#step-3-review-the-rfc) (focus on quality):** Once the RFC is complete, you submit a pull-request with the new RFC for final review. The review focuses on quality of RFC, not the content of the RFC (should already have been agreed upon in the writing phase).
-4. **[Merge RFC](#step-4-merge-the-rfc):** RFC is merged into repository (RFCs does not need to be complete to be merged, as long as unresolved questions have been listed in the RFC and quality has passed the review).
-5. **[Start implementing RFC](#step-5-start-rfc-implementation):**
-6. **[Finish RFC implementation](#step-5-start-rfc-implementation):**
+1. **[Request RFC](#step-1-request-an-rfc) (focus on scope):** Before starting to write and implement a new RFC, you first have to request the approval of OARepo architects by [opening an issue](https://github.com/oarepo/rfcs/issues/new/choose). This is to aid scoping the RFC, avoid duplication as well as save everyone time..
+2. **[Write RFC](#step-2-write-the-rfc) (focus on content):** If the request is accepted by architects, the writing process of the RFC is started using the following [template](https://github.com/oarepo/rfcs/blob/master/0000-template.md). This part of the process focuses on the *content*. The goal is that most discussions and alignment on a solutions happens in this writing phase.
+3. **[Review RFC](#step-3-review-the-rfc) (focus on quality):** Once the RFC document is written, it needs to be reviewed and approved. The review focuses on quality of RFC and readiness for implementation, not the content of the RFC (that should already have been agreed upon in the writing phase).
+4. **[Merge RFC](#step-4-merge-the-rfc):** RFC is merged into repository (RFCs does not need to be complete to be merged, as long as unresolved questions have been listed in the RFC document and quality has passed the review).
+5. **[Start implementing RFC](#step-5-start-rfc-implementation):** Create implementation issues for RFC features in repositories affected by the RFC, assign developers to be implementing these features.
+6. **[Finish RFC implementation](#step-5-start-rfc-implementation):** When all implementation issues are resolved and closed, user stories from the **Motivation** section are checked against implementation and RFC document is then marked as `Implemented`.
 
 ---
 
@@ -47,15 +47,15 @@ You need to write a RFC to make changes to OARepo modules functionality. A chang
 
 ### Step 1: Request an RFC
 
-##### Change requestor
+##### Requestor
 
 - [Open an issue](https://github.com/oarepo/rfcs/issues/new/choose).
-  - Document the 1) Motivation 2) Summary of proposed changes and 3) Resources
+  - Document the 1) Motivation 2) Summary of proposed changes and 3) Expected resources needed
 
 ##### [Platform architects](https://github.com/orgs/oarepo/teams/architects):
 
 - Label and assign the issue
-  - All new RFCs should have the "Proposal: Pending" label and a label for the product (e.g. "NR").
+  - All new RFCs should have the "Proposal: Pending" label and a label for the product if applicable (e.g. "NR").
 - Review the request
 - **If rejected**:
   - Add a justification to the comments of the issue.
