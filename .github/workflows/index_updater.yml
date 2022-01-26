@@ -12,7 +12,6 @@ jobs:
     env:
       APIURL: https://api.github.com/repos/oarepo/rfcs
       RAWURL: https://raw.githubusercontent.com/oarepo/rfcs
-      GHURL: https://github.com/oarepo/rfcs
       INDEX: docs/index.md
     steps:
       - name: Checkout oarepo/rfcs
@@ -43,7 +42,7 @@ jobs:
               TITLE=$(curl -s "$RAWURL/main/docs/$RFC_FILE" | sed -n '/^# / { s/^# //; p; q }')
               echo "TITLE=$TITLE"
               # add list item to index:
-              echo "* [rfc-$ISN: $TITLE]($GHURL/blob/main/docs/$RFC_FILE)" >> $INDEX.tmp
+              echo "* [rfc-$ISN: $TITLE](${RFC_FILE%.md})" >> $INDEX.tmp
             else
               echo "Wrong RFC filename"
             fi
