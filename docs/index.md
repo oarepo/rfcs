@@ -6,5 +6,5 @@
   in index_updater.yml
 -->
 <!--ts-->
-* [rfc-1: Submission of rfcs](https://github.com/oarepo/rfcs/blob/main/docs/0001-submission-of-rfcs.md)
+* [rfc-1: Submission of rfcs](0001-submission-of-rfcs)
 <!--te-->
