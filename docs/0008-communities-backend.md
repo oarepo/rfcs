@@ -25,7 +25,7 @@ It explores and defines ways, in which the existing [invenio-communities](https:
 - **a.** I want to be able to search for existing Communities, in order to discover and filter new institutions/projects/events/topics, that I may be interested in.
 - **b.** I want to list, search and view records published (marked as visible to general public) in a Community of my interest.
 - **c.** I want to list, search and view published records independently on Community it was published in (across all the Communities).
-- **d.** on a record landing page I want to immediately see, in which Community the record was published, this also applies to downloaded record metadata.
+- **d.** When I download record metadata, I want to see, in which Community the record was published.
 
 _NOTE: Any of the following roles are also considered as general users._
 
@@ -64,7 +64,7 @@ As a curator:
 
 
 #### 5. Community publisher
-_NOTE: This user role is relevant only to Communities having curation policy requiring additional approvement step before the record is made visible to general public._
+_NOTE: This user role is relevant only to Communities having curation policy that requires additional approvement step before the record is made visible to general public._
 
 As a Community publisher:
 
