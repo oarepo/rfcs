@@ -14,31 +14,86 @@ This PR introduces into OARepo the concept of "Communities", in order to facilit
 
 The scope of this RFC is the backend invenio module `oarepo-communities` to allow CRUD+search operations on Communities and Community-aware records through the programmatic and REST APIs, to configure Community curation workflows and roles permissions.
 
+It explores and defines ways, in which the existing [invenio-communities](https://github.com/inveniosoftware/invenio-communities) module and other related Invenio modules can be used to implement our use-cases.
+
 ## Motivation
 
 #### 1. General user
-- **a.**  As a user, I want to be able to search for existing Communities, in order to discover and filter new institutions/projects/events/topics, that I may be interested in.
-- **b.** As a user, I want to be able to browse and search for records published in a Community of my interest.
+
+> As a user from the general public:
+
+- **a.** I want to be able to search for existing Communities, in order to discover and filter new institutions/projects/events/topics, that I may be interested in.
+- **b.** I want to list, search and view records published (marked as visible to general public) in a Community of my interest.
+- **c.** I want to list, search and view published records independently on Community it was published in (across all the Communities).
+- **d.** on a record landing page I want to immediately see, in which Community the record was published, this also applies to downloaded record metadata.
+
+_NOTE: Any of the following roles are also considered as general users._
+
 #### 2. Community owner
-- **a.** As a Community owner, I want to be able to make changes to my Community's profile page, in order to correct/add information, so that they can quickly appear publicly for other users to see.
-- **b.** As a Community owner, I want to be able to have a persistent, unique identifier/slug for my Community, so that I can reliably store and depend on it on my side, in order to use it in REST API
-- **c.** As a Community owner, I want to list and query all Community members and their corresponding Community roles
+
+> As an owner of the Community:
+
+- **a.** I want to be able to make changes to my Community's profile page, in order to correct/add information, so that they can quickly appear publicly for other users to see.
+- **b.** I want to receive a persistent, unique identifier/slug (when used in record landing page URLs, it **MUST NEVER** change) for my Community, so that I can reliably store and depend on it on my side, in order to use it in any form of permanent API and UI URLs.
+- **c.** I want to list and query all Community members and their corresponding Community roles **_#TODO:_** is this the proper role?
 #### 3. Community member
-- **a.** As a member, I want to submit my work as a repository record associated with my Community.
+
+> As a member of the Community:
+
+- **a.** I want to submit my work as a repository record associated with my Community.
 - **b.** As a member, I want to list and query my submitted records and filter it depending on submission / curation state (e.g. draft, waiting for approval, approved, published,...).
-- **c.** As a member, I want to publish my record so that it can be discoverable and accessible either by:
+- **c.** I want to publish my record so that it can be discoverable and accessible either by:
   - other community members
-  - general public. 
-- **c.** As a member of Community, where curation policy requires approval before publishing, I need to be able to request such approval by Community curators.
-- **d.** As a member, I want to be able to list and check all the requests that I made (e.g. for record approval, doi registration,...) and it's status (e.g. whether it was accepted or rejected or any feedback from people involved in handling the request).
+  - general public.
+- **d.** I want to list, query and view records published (marked as visible to Community or general public) by other Community members.
+- **e.** where curation policy requires approval before publishing, I have to request such approval from Community curators and publishers (where applicable by policy).
+- **f.** I want to list and view all the requests that I made (e.g. for record approval, doi registration,...) and it's status (e.g. whether it was accepted or rejected or any feedback from people involved in handling the request).
+- **g.** I may want to get notified, when any of my requests changes it's state.
+- **h.** I may want to discuss with people reviewing my requests by adding comments to it.
 
 #### 4. Community curator
 
+As a curator:
+
+- **a.** I want to be notified, when a new record approval request appears in a Community
+- **b.** I want to list and view all pending record approval requests in my Community, that needs to be reviewed.
+- **c.** I want to review record approval requests together with related record and either:
+  - accept them. Related record becomes visible to other members or general public (depending on Community's curation policy).
+  - reject them, and provide optional feedback explaining why it was rejected, or if any changes to the related record are requested.
+  - discuss with the request author by adding comments to the request
+
 
 #### 5. Community publisher
+_NOTE: This user role is relevant only to Communities having curation policy requiring additional approvement step before the record is made visible to general public._
+
+As a Community publisher:
+
+- **a.** I want to be notified, when a Community record approved by curators is requested to be published to general public.
+- **b.** I want to list and view all pending record publication requests in my Community, that needs to be reviewed.
+- **c.** I want to review record publication requests together with related record, and either:
+  - accept them. Related record becomes visible to general public.
+  - reject them, and provide optional feedback explaining why it was rejected.
+  - discuss with the request author by adding comments to the request.
 
 
-#### 6. Repository system administrator
+#### 6. System user
+
+System user can be added to Community as a special kind of Community member. Such user may be subject to a different set of curation policy rules, record submission workflows, and record permission policies, than standard Community members.
+
+For example, system users can be used in background processes for automatical harvest of records from another repository instance into Community.
+
+> System user:
+
+- **a.** Uses Rest APIs or record service directly for Community record submission
+
+
+#### 7. Repository site administrator
+
+> As a repository site administrator:
+
+- **a.** I create Communities, designate Community owners
+- **b.** I manage mappings of external user groups (from Perun AAI system) to repository site user groups
+- **c.** I create and manage system users.
 
 ## Detailed design
 
