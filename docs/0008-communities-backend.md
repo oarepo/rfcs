@@ -12,7 +12,7 @@
 
 This PR introduces into OARepo the concept of "Communities", in order to facilitate the concept of grouping records for organization and management purposes. Communities are not meant to be just named collections of records, but also introduce a layer of collaborative features which can be used to serve more complex curation workflows in a repository. It can also be used to restrict access to records just to the Community members, when needed.
 
-The scope of this RFC is the backend invenio module `oarepo-communities` to allow CRUD+search operations on Communities and Community-aware records through the programmatic and REST APIs, to configure Community curation workflows and roles permissions.
+The scope of this RFC is the backend Invenio module `oarepo-communities` to allow CRUD+search operations on Communities and Community-aware records through the programmatic and REST APIs, to configure Community curation workflows and roles permissions.
 
 It explores and defines ways, in which the existing [invenio-communities](https://github.com/inveniosoftware/invenio-communities) module and other related Invenio modules can be used to implement our use-cases.
 
