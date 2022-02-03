@@ -36,6 +36,7 @@ _NOTE: Any of the following roles are also considered as general users._
 - **a.** I want to be able to make changes to my Community's profile page, in order to correct/add information, so that they can quickly appear publicly for other users to see.
 - **b.** I want to receive a persistent, unique identifier/slug (when used in record landing page URLs, it **MUST NEVER** change) for my Community, so that I can reliably store and depend on it on my side, in order to use it in any form of permanent API and UI URLs.
 - **c.** I want to list and query all Community members and their corresponding Community roles **_#TODO:_** is this the proper role?
+
 #### 3. Community member
 
 > As a member of the Community:
@@ -62,7 +63,6 @@ As a curator:
   - reject them, and provide optional feedback explaining why it was rejected, or if any changes to the related record are requested.
   - discuss with the request author by adding comments to the request
 
-
 #### 5. Community publisher
 _NOTE: This user role is relevant only to Communities having curation policy that requires additional approvement step before the record is made visible to general public._
 
@@ -75,7 +75,6 @@ As a Community publisher:
   - reject them, and provide optional feedback explaining why it was rejected.
   - discuss with the request author by adding comments to the request.
 
-
 #### 6. System user
 
 System user can be added to Community as a special kind of Community member. Such user may be subject to a different set of curation policy rules, record submission workflows, and record permission policies, than standard Community members.
@@ -85,7 +84,6 @@ For example, system users can be used in background processes for automatical ha
 > System user:
 
 - **a.** Uses Rest APIs or record service directly for Community record submission
-
 
 #### 7. Repository site administrator
 
@@ -97,9 +95,12 @@ For example, system users can be used in background processes for automatical ha
 
 ## Detailed design
 
-> This is the bulk of the RFC.
+To address the described use-cases, we consider the following existing Invenio modules:
 
-> Explain the design in enough detail for somebody familiar with the framework to understand, and for somebody familiar with the implementation to implement. This should get into specifics and corner-cases, and include examples of how the feature is used. Any new terminology should be defined here.
+- [invenio-communities](https://github.com/inveniosoftware/invenio-communities) for Community base support (APIs, models, services...)
+- [invenio-requests](https://github.com/inveniosoftware/invenio-requests) to implement user requests for record approval, doi assignment,...
+- [invenio-users-resources](https://github.com/inveniosoftware/invenio-users-resources) to manage user roles and groups
+- [invenio-admin](https://github.com/inveniosoftware/invenio-admin) for Community administration interface, creation of system users, management of external group mappings
 
 ## Example
 
