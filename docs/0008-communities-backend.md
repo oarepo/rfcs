@@ -16,6 +16,28 @@ The scope of this RFC is the backend Invenio module `oarepo-communities` to allo
 
 It explores and defines ways, in which the existing [invenio-communities](https://github.com/inveniosoftware/invenio-communities) module and other related Invenio modules can be used to implement our use-cases.
 
+##### Discussion:
+
+- Are there any other use-cases for communities?
+- Is it possible to have more models (that member can choose from when submitting record) in a Community?
+- Can Community owner restrict models that can be available in his Community?
+> Models should be independent of Communities, Community owner can choose which ones are available for its members
+
+- When a Community **SHOULD** be created?
+  1. Access to records should be at some time restricted just to the team.
+  2. Custom record curation and access policies are needed.
+
+- When a Community **SHOULD NOT** be created?
+  1. Only a simple open-access publishing is required by individual persons, without a need for any curation of records. This use-case should end in `General` catch-all Community.
+  2. I want to share my record only with a single individuals (e.g. my publisher, supervisor), without any needs for curation workflows. For these use-cases, record access sharing feature may be sufficient.
+  3. Only a grouping of records under some name is required (without the needs for any of the Community roles or workflows). For these use-cases, adding some grouping label (e.g. `series`) in the record's metadata may be sufficient.
+  4. Grouping of records by discipline is needed. These use-cases should be handled by specialized disciplinary repositories.
+
+- Should we require a curator to be assigned before creating Community?
+> There must always be atleast the Community owner.
+> There must be a designated curator, if DOI assignments are needed.
+
+
 ## Motivation
 
 #### 1. General user
@@ -54,7 +76,7 @@ _NOTE: Any of the following roles are also considered as general users._
 
 #### 4. Community curator
 
-As a curator:
+> As a curator:
 
 - **a.** I want to be notified, when a new record approval request appears in a Community
 - **b.** I want to list and view all pending record approval requests in my Community, that needs to be reviewed.
@@ -66,7 +88,7 @@ As a curator:
 #### 5. Community publisher
 _NOTE: This user role is relevant only to Communities having curation policy that requires additional approvement step before the record is made visible to general public._
 
-As a Community publisher:
+> As a Community publisher:
 
 - **a.** I want to be notified, when a Community record approved by curators is requested to be published to general public.
 - **b.** I want to list and view all pending record publication requests in my Community, that needs to be reviewed.
@@ -85,11 +107,23 @@ For example, system users can be used in background processes for automatical ha
 
 - **a.** Uses Rest APIs or record service directly for Community record submission
 
+##### Discussion:
+
+- Should the harvesting system user have its own Community?
+> It should have if the original Community curators shouldn't be allowed to review the records.
+
+- Should the harvesting system user have the same rights as regular member?
+> Granting of record validation exceptions should be the same for harvest and member submission.
+> Such exceptions are configured by Community owner.
+> Other approach is to forbid any exceptions to validation rules. What about harvest of NUSL? We would need to have a new model for each set of validation exceptions.
+> The solution can be to have just minimal validation rules enforced on model (for structural integrity, indexability). Any additional validation rules should be configured and imposed per each community.
+
+
 #### 7. Repository site administrator
 
 > As a repository site administrator:
 
-- **a.** I create Communities, designate Community owners
+- **a.** I create Communities, assign Community owners
 - **b.** I manage mappings of external user groups (from Perun AAI system) to repository site user groups
 - **c.** I create and manage system users.
 
@@ -130,7 +164,21 @@ To address the described use-cases, we consider the following existing Invenio m
 
 ## Unresolved questions
 
-> Optional, but suggested for first drafts. What parts of the design are still TBD? Use it as a todo list for the RFC.
+* Komunity neumoznuji predefinovani ResourceConfig a ServiceConfig, potrebujeme rozsirit schema o keywordy a validacni pravidla, mimo jine.
+> Pozadat Invenio o pridani moznosti, jako u vocabularies, prip. udelat PR
+
+* Jak pozvat uzivatele do komunity - integrace s Perunem
+> Kazdy uzivatel musi projit prihlaskou do Perun VO + podskupiny
+> Prihlasku musi schvalit spravce VO
+> Pozvani musi byt iniciovano z repozitare ownerem komunity / poverenou roli
+> Jak resit povyseni/ponizeni uzivatele (musi se projevit v Perunu - zmena clenstvi ve skupine)?
+> Jde vygenerovat pozvanka do konkretni VO grupy z aplikace repozitare?
+> Sla by pouzit Perun miniaplikace?
+
+* nastaveni validadci per komunita - record service by validovala na zaklade komunity z metadat recordu
+
+* jak resit mrtve komunity (expirovani clenove)?
+> nastavit priznak zaarchivovano?
 
 ## Resources/Timeline
 
