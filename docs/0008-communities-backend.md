@@ -12,7 +12,7 @@
 
 This PR introduces into OARepo the concept of "Communities", in order to facilitate the concept of grouping records for organization and management purposes. Communities are not meant to be just named collections of records, but also introduce a layer of collaborative features which can be used to serve more complex curation workflows in a repository. It can also be used to restrict access to records just to the Community members, when needed.
 
-The scope of this RFC is the backend Invenio module `oarepo-communities` to allow CRUD+search operations on Communities and Community-aware records through the programmatic and REST APIs, to configure Community curation workflows and roles permissions.
+The scope of this RFC is the backend Invenio modules to allow CRUD+search operations on Communities and Community-aware records through the programmatic and REST APIs, to configure Community curation workflows and roles permissions.
 
 It explores and defines ways, in which the existing [invenio-communities](https://github.com/inveniosoftware/invenio-communities) module and other related Invenio modules can be used to implement our use-cases.
 
@@ -135,6 +135,101 @@ To address the described use-cases, we consider the following existing Invenio m
 - [invenio-requests](https://github.com/inveniosoftware/invenio-requests) to implement user requests for record approval, doi assignment,...
 - [invenio-users-resources](https://github.com/inveniosoftware/invenio-users-resources) to manage user roles and groups
 - [invenio-admin](https://github.com/inveniosoftware/invenio-admin) for Community administration interface, creation of system users, management of external group mappings
+
+The implementation will be split in two parts:
+
+### OARepo Communities library
+
+To implement any features needed and missing from the base `invenio-communities` library, we create the `oarepo-communities` library.
+
+### Model builder plugin
+
+To make repository records aware of Communities, we need a way to add Community-related model fields & services to record's models. For that, we implement an [oarepo-model-builder](https://github.com/oarepo/oarepo-model-builder) plugin [oarepo-model-builder-communities](https://github.com/oarepo/oarepo-model-builder-communities), that allows us to enable Communities support in record's model:
+
+**model.yaml**
+```yaml
+oarepo:use:
+  - invenio
+  - oarepo-communities  # enable communities on record
+model:
+  properties:
+    metadata:
+      properties:
+        title:
+          type: fulltext+keyword
+settings:
+  package: record_with_communities
+```
+
+When the model is built, the plugin adds the `communities` field (holding references to default and a list of all Communities of a record) to record's metadata schema, ES mapping and record's API:
+
+**record_with_communities/jsonschemas/record-with-communities-1.0.0.json**
+```json5
+{
+  "properties": {
+    "metadata": {
+      "properties": {
+        #...
+        "communities": {
+          "type": "object",
+          "properties": {
+            "default": {
+              "type": "string"
+            },
+            "ids": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+    ...
+```
+
+**record_with_communities/mappings/v7/record-with-communities-1.0.0.json**
+```json5
+{
+  "mappings": {
+    "properties": {
+      "metadata": {
+        #...
+        "communities": {
+            "type": "object",
+            "properties": {
+              "default": {
+                "type": "keyword",
+                "ignore_above": 50
+              },
+              "ids": {
+                "type": "keyword",
+                "ignore_above": 50
+              }
+            }
+          }
+```
+
+**record_with_communities/api.py**
+```python
+class RecordWithCommunities(InvenioBaseRecord):
+    ...
+    communities = CommunitiesField(CommunityRecordWithCommunities)
+```
+
+As the `CommunitiesField` is a M2M DB relation field, the plugin also needs to provide a relation DB model for it. This way, we establish a mapping from Community ids stored in record's metadata to Community records.
+
+**record_with_communities/models.py**
+```python
+class RecordWithCommunitiesMetadata(db.Model, RecordMetadataBase):
+    ...
+
+class CommunityRecordWithCommunities(db.Model, CommunityRelationMixin):
+    """Model for Community to RecordWithCommunities mapping."""
+
+    __tablename__ = "communities_record_with_communities"
+    __record_model__ = RecordWithCommunitiesMetadata
+```
+
 
 ## Example
 
