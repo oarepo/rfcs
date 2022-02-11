@@ -140,7 +140,19 @@ The implementation will be split in two parts:
 
 ### OARepo Communities library
 
-To implement any features needed and missing from the base `invenio-communities` library, we create the `oarepo-communities` library.
+To implement any features needed and missing from the base `invenio-communities` library, we create the `oarepo-communities` library. Features are currently missing and needs to be implemented:
+
+#### CLI
+
+**Create & manage Communities**
+```bash
+# CLI Usage
+$ invenio oarepo:communities {create|list|update|remove}
+```
+
+#### Admin
+
+The library needs to provide `Invenio-Admin` views to enable Repository site administrators and Community owners to manage Communities the same way as with using the CLI. Community owners should be allowed to update their Community details & configuration only.
 
 ### Model builder plugin
 
@@ -230,6 +242,24 @@ class CommunityRecordWithCommunities(db.Model, CommunityRelationMixin):
     __record_model__ = RecordWithCommunitiesMetadata
 ```
 
+### OARepo Perun resources library
+
+Before group/role based permissions in Communities could be possible, we need to implement the `oarepo-perun-resources` library that manages mapping of external groups (coming from the **Perun AAI** system) to internal Invenio user groups and/or roles. The library should depend on services provided by `invenio-users-resources`.
+
+To implement the mapping from Perun to Invenio, it needs to provide the following DB model:
+
+**_TODO: this needs to be revisited_**
+
+**oarepo_perun_resources/records/models.py**
+```python
+class PerunGroupModel(db.Model, RecordMetadataBase):
+    """Perun external group to Invenio group/role mapping model."""
+
+    __tablename__ = 'perun_group'
+
+    uuid = db.Column(UUIDType(), nullable=False, unique=True, index=True)
+    roles = db.ForeignKey('Role')
+```
 
 ## Example
 
