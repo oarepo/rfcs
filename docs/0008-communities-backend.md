@@ -136,7 +136,7 @@ To address the described use-cases, we consider the following existing Invenio m
 - [invenio-users-resources](https://github.com/inveniosoftware/invenio-users-resources) to manage user roles and groups
 - [invenio-admin](https://github.com/inveniosoftware/invenio-admin) for Community administration interface, creation of system users, management of external group mappings
 
-The implementation will be split in two parts:
+Implementation will be split into the following parts:
 
 ### OARepo Communities library
 
@@ -261,6 +261,9 @@ class PerunGroupModel(db.Model, RecordMetadataBase):
     roles = db.ForeignKey('Role')
 ```
 
+
+
+
 ## Example
 
 > Show a concrete example of what the RFC implies. This will make the consequences of adopting the RFC much clearer.
@@ -299,6 +302,7 @@ class PerunGroupModel(db.Model, RecordMetadataBase):
 > Jak resit povyseni/ponizeni uzivatele (musi se projevit v Perunu - zmena clenstvi ve skupine)?
 > Jde vygenerovat pozvanka do konkretni VO grupy z aplikace repozitare?
 > Sla by pouzit Perun miniaplikace?
+> Slo by pouzit Perun JSON RPC API: https://perun-aai.org/documentation/technical-documentation/rpc-api/index.html?
 
 * nastaveni validadci per komunita - record service by validovala na zaklade komunity z metadat recordu
 
